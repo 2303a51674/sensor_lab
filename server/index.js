@@ -9,7 +9,6 @@ const productRoutes = require('./routes/products');
 
 const app = express();
 
-// ✅ ADD THIS (VERY IMPORTANT)
 const PORT = process.env.PORT || 3000;
 
 // Middleware
@@ -27,13 +26,11 @@ app.use('/api/products', productRoutes);
 app.get('/api/health', (req, res) =>
   res.json({ status: 'OK', message: 'Server running' })
 );
-
-// Root route (fixes "Cannot GET /")
 app.get("/", (req, res) => {
   res.json({ message: "API running 🚀" });
 });
 
-// Connect to MongoDB and start server
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('✅ MongoDB Connected');
