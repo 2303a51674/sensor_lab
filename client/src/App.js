@@ -6,7 +6,7 @@ import Dashboard from './pages/Dashboard';
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
-  if (loading) return <div style={{ display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',color:'var(--accent)',fontFamily:'var(--mono)' }}>Initializing...</div>;
+  if (loading) return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', color: 'var(--accent)', fontFamily: 'var(--mono)' }}>Initializing...</div>;
   return user ? children : <Navigate to="/login" />;
 };
 
