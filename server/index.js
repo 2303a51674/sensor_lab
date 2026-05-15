@@ -27,9 +27,9 @@ app.get('/api/health', (req, res) => res.json({ status: 'OK', message: 'Server r
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('✅ MongoDB Connected');
-    app.listen(process.env.PORT, () =>
-      console.log(`🚀 Server running on http://localhost:${process.env.PORT}`)
-    );
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on ${PORT}`);
+});
   })
   .catch(err => {
     console.error('❌ MongoDB connection error:', err.message);
