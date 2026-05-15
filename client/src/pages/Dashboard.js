@@ -26,8 +26,8 @@ export default function Dashboard() {
   const [stats, setStats] = useState({});
   const [loading, setLoading] = useState(true);
   const [seeding, setSeeding] = useState(false);
-  const [addForm, setAddForm] = useState({ sensorType:'Type IV', sensitivity:'', lod:'', concentration:'', notes:'' });
-  const [addProductForm, setAddProductForm] = useState({ productName:'', productType:'tablet', measuredConcentration:'', nominalConcentration:'' });
+  const [addForm, setAddForm] = useState({ sensorType: 'Type IV', sensitivity: '', lod: '', concentration: '', notes: '' });
+  const [addProductForm, setAddProductForm] = useState({ productName: '', productType: 'tablet', measuredConcentration: '', nominalConcentration: '' });
   const [msg, setMsg] = useState('');
 
   const fetchAll = async () => {
@@ -64,7 +64,7 @@ export default function Dashboard() {
     try {
       await axios.post('/api/sensors', addForm);
       setMsg('Sensor reading added!'); setTimeout(() => setMsg(''), 3000);
-      setAddForm({ sensorType:'Type IV', sensitivity:'', lod:'', concentration:'', notes:'' });
+      setAddForm({ sensorType: 'Type IV', sensitivity: '', lod: '', concentration: '', notes: '' });
       fetchAll();
     } catch (err) { setMsg('Error: ' + (err.response?.data?.message || err.message)); }
   };
@@ -74,7 +74,7 @@ export default function Dashboard() {
     try {
       await axios.post('/api/products', addProductForm);
       setMsg('Product test added!'); setTimeout(() => setMsg(''), 3000);
-      setAddProductForm({ productName:'', productType:'tablet', measuredConcentration:'', nominalConcentration:'' });
+      setAddProductForm({ productName: '', productType: 'tablet', measuredConcentration: '', nominalConcentration: '' });
       fetchAll();
     } catch (err) { setMsg('Error: ' + (err.response?.data?.message || err.message)); }
   };
@@ -101,7 +101,7 @@ export default function Dashboard() {
   const sensBarData = {
     labels: ['Type I', 'Type II', 'Type III', 'Type IV'],
     datasets: [
-      { label: 'Sensitivity', data: [0.0708, 0.0978, 0.1101, 0.1257], backgroundColor: ['#1a3a5c','#1a4a6c','#1a5a8c','#00d4ff'], borderRadius: 6 }
+      { label: 'Sensitivity', data: [0.0708, 0.0978, 0.1101, 0.1257], backgroundColor: ['#1a3a5c', '#1a4a6c', '#1a5a8c', '#00d4ff'], borderRadius: 6 }
     ]
   };
 
@@ -113,8 +113,8 @@ export default function Dashboard() {
   };
 
   const productDoughData = {
-    labels: products.map(p => p.productName?.split(' ').slice(0,2).join(' ')),
-    datasets: [{ data: products.map(p => p.measuredConcentration), backgroundColor: ['#00d4ff','#7c3aed','#10d48e','#f59e0b','#ef4444'], borderWidth: 0, hoverOffset: 6 }]
+    labels: products.map(p => p.productName?.split(' ').slice(0, 2).join(' ')),
+    datasets: [{ data: products.map(p => p.measuredConcentration), backgroundColor: ['#00d4ff', '#7c3aed', '#10d48e', '#f59e0b', '#ef4444'], borderWidth: 0, hoverOffset: 6 }]
   };
 
   return (
@@ -156,7 +156,7 @@ export default function Dashboard() {
         {/* Top bar */}
         <div style={s.topbar}>
           <div>
-            <h1 style={s.pageTitle}>{NAV.find(n=>n.id===active)?.label}</h1>
+            <h1 style={s.pageTitle}>{NAV.find(n => n.id === active)?.label}</h1>
             <p style={s.pageSub}>As₂S₃ Infrared Evanescent Wave Detection System</p>
           </div>
           <div style={s.topActions}>
@@ -202,9 +202,9 @@ export default function Dashboard() {
                     {products.length > 0 && (
                       <div style={s.chartCard}>
                         <div style={s.chartTitle}>Product Concentration Distribution</div>
-                        <div style={{ height: '220px', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                          <div style={{ width:'200px', height:'200px' }}>
-                            <Doughnut data={productDoughData} options={{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } } }} />
+                        <div style={{ height: '220px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <div style={{ width: '200px', height: '200px' }}>
+                            <Doughnut data={productDoughData} options={{ responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }} />
                           </div>
                         </div>
                       </div>
@@ -238,11 +238,11 @@ export default function Dashboard() {
                     <div style={s.tableHeader}>
                       <span style={s.chartTitle}>Sensor Readings ({sensors.length})</span>
                     </div>
-                    <div style={{ overflowX:'auto' }}>
+                    <div style={{ overflowX: 'auto' }}>
                       <table style={s.table}>
                         <thead>
                           <tr>
-                            {['Type','dw (µm)','lw (mm)','Bent','Sensitivity','LoD','Conc. (mg/ml)','Recorded By','Actions'].map(h=>(
+                            {['Type', 'dw (µm)', 'lw (mm)', 'Bent', 'Sensitivity', 'LoD', 'Conc. (mg/ml)', 'Recorded By', 'Actions'].map(h => (
                               <th key={h} style={s.th}>{h}</th>
                             ))}
                           </tr>
@@ -254,17 +254,17 @@ export default function Dashboard() {
                               <td style={s.td}>{r.waistDiameter ?? '—'}</td>
                               <td style={s.td}>{r.waistLength ?? '—'}</td>
                               <td style={s.td}><span style={{ color: r.hasBend ? '#10d48e' : '#4d7a96' }}>{r.hasBend ? 'Yes' : 'No'}</span></td>
-                              <td style={{ ...s.td, color:'#00d4ff', fontFamily:'var(--mono)', fontSize:'13px' }}>{r.sensitivity?.toFixed(4)}</td>
-                              <td style={{ ...s.td, color:'#10d48e', fontFamily:'var(--mono)', fontSize:'13px' }}>{r.lod?.toFixed(3)}</td>
+                              <td style={{ ...s.td, color: '#00d4ff', fontFamily: 'var(--mono)', fontSize: '13px' }}>{r.sensitivity?.toFixed(4)}</td>
+                              <td style={{ ...s.td, color: '#10d48e', fontFamily: 'var(--mono)', fontSize: '13px' }}>{r.lod?.toFixed(3)}</td>
                               <td style={s.td}>{r.concentration ?? '—'}</td>
-                              <td style={{ ...s.td, color:'var(--text2)' }}>{r.recordedBy?.name || 'System'}</td>
+                              <td style={{ ...s.td, color: 'var(--text2)' }}>{r.recordedBy?.name || 'System'}</td>
                               <td style={s.td}>
                                 <button onClick={() => deleteSensor(r._id)} style={s.delBtn}>✕</button>
                               </td>
                             </tr>
                           ))}
                           {sensors.length === 0 && (
-                            <tr><td colSpan={9} style={{ ...s.td, textAlign:'center', color:'var(--text3)', padding:'2rem' }}>No data — click "Seed Research Data" to load</td></tr>
+                            <tr><td colSpan={9} style={{ ...s.td, textAlign: 'center', color: 'var(--text3)', padding: '2rem' }}>No data — click "Seed Research Data" to load</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -277,11 +277,11 @@ export default function Dashboard() {
               {active === 'products' && (
                 <div style={s.tableCard}>
                   <div style={s.tableHeader}><span style={s.chartTitle}>Product Tests ({products.length})</span></div>
-                  <div style={{ overflowX:'auto' }}>
+                  <div style={{ overflowX: 'auto' }}>
                     <table style={s.table}>
                       <thead>
                         <tr>
-                          {['Product','Type','Measured (mg/ml)','Nominal (mg/ml)','Δ Error','Sensor','Actions'].map(h=>(
+                          {['Product', 'Type', 'Measured (mg/ml)', 'Nominal (mg/ml)', 'Δ Error', 'Sensor', 'Actions'].map(h => (
                             <th key={h} style={s.th}>{h}</th>
                           ))}
                         </tr>
@@ -289,17 +289,17 @@ export default function Dashboard() {
                       <tbody>
                         {products.map(p => (
                           <tr key={p._id} style={s.tr}>
-                            <td style={{ ...s.td, color:'var(--text)', fontWeight:'500' }}>{p.productName}</td>
+                            <td style={{ ...s.td, color: 'var(--text)', fontWeight: '500' }}>{p.productName}</td>
                             <td style={s.td}><span style={s.typeBadge}>{p.productType}</span></td>
-                            <td style={{ ...s.td, fontFamily:'var(--mono)', color:'#00d4ff' }}>{p.measuredConcentration?.toFixed(2)}</td>
-                            <td style={{ ...s.td, fontFamily:'var(--mono)', color:'var(--text2)' }}>{p.nominalConcentration?.toFixed(2)}</td>
-                            <td style={{ ...s.td, fontFamily:'var(--mono)', color: p.delta <= 0.5 ? '#10d48e' : '#f59e0b' }}>±{p.delta?.toFixed(2)}</td>
-                            <td style={{ ...s.td, color:'var(--text3)' }}>{p.sensorUsed}</td>
+                            <td style={{ ...s.td, fontFamily: 'var(--mono)', color: '#00d4ff' }}>{p.measuredConcentration?.toFixed(2)}</td>
+                            <td style={{ ...s.td, fontFamily: 'var(--mono)', color: 'var(--text2)' }}>{p.nominalConcentration?.toFixed(2)}</td>
+                            <td style={{ ...s.td, fontFamily: 'var(--mono)', color: p.delta <= 0.5 ? '#10d48e' : '#f59e0b' }}>±{p.delta?.toFixed(2)}</td>
+                            <td style={{ ...s.td, color: 'var(--text3)' }}>{p.sensorUsed}</td>
                             <td style={s.td}><button onClick={() => deleteProduct(p._id)} style={s.delBtn}>✕</button></td>
                           </tr>
                         ))}
                         {products.length === 0 && (
-                          <tr><td colSpan={7} style={{ ...s.td, textAlign:'center', color:'var(--text3)', padding:'2rem' }}>No products — click "Seed Research Data"</td></tr>
+                          <tr><td colSpan={7} style={{ ...s.td, textAlign: 'center', color: 'var(--text3)', padding: '2rem' }}>No products — click "Seed Research Data"</td></tr>
                         )}
                       </tbody>
                     </table>
@@ -314,21 +314,21 @@ export default function Dashboard() {
                     <div style={s.chartTitle}>Add Sensor Reading</div>
                     <form onSubmit={addSensor} style={s.addForm}>
                       {[
-                        { label:'Sensor Type', key:'sensorType', type:'select', opts:['Type I','Type II','Type III','Type IV'] },
-                        { label:'Sensitivity (a.u./(mg·ml⁻¹))', key:'sensitivity', type:'number', step:'0.0001', placeholder:'0.1257' },
-                        { label:'LoD (mg/ml)', key:'lod', type:'number', step:'0.001', placeholder:'0.917' },
-                        { label:'Concentration tested (mg/ml)', key:'concentration', type:'number', step:'0.1', placeholder:'90' },
-                        { label:'Notes', key:'notes', type:'text', placeholder:'Optional notes...' },
+                        { label: 'Sensor Type', key: 'sensorType', type: 'select', opts: ['Type I', 'Type II', 'Type III', 'Type IV'] },
+                        { label: 'Sensitivity (a.u./(mg·ml⁻¹))', key: 'sensitivity', type: 'number', step: '0.0001', placeholder: '0.1257' },
+                        { label: 'LoD (mg/ml)', key: 'lod', type: 'number', step: '0.001', placeholder: '0.917' },
+                        { label: 'Concentration tested (mg/ml)', key: 'concentration', type: 'number', step: '0.1', placeholder: '90' },
+                        { label: 'Notes', key: 'notes', type: 'text', placeholder: 'Optional notes...' },
                       ].map(f => (
                         <div key={f.key} style={s.formField}>
                           <label style={s.formLabel}>{f.label}</label>
                           {f.type === 'select' ? (
-                            <select value={addForm[f.key]} onChange={e => setAddForm({...addForm, [f.key]:e.target.value})} style={s.formInput}>
+                            <select value={addForm[f.key]} onChange={e => setAddForm({ ...addForm, [f.key]: e.target.value })} style={s.formInput}>
                               {f.opts.map(o => <option key={o}>{o}</option>)}
                             </select>
                           ) : (
                             <input type={f.type} step={f.step} placeholder={f.placeholder}
-                              value={addForm[f.key]} onChange={e => setAddForm({...addForm, [f.key]:e.target.value})}
+                              value={addForm[f.key]} onChange={e => setAddForm({ ...addForm, [f.key]: e.target.value })}
                               style={s.formInput} required={f.key !== 'notes'} />
                           )}
                         </div>
@@ -341,20 +341,20 @@ export default function Dashboard() {
                     <div style={s.chartTitle}>Add Product Test</div>
                     <form onSubmit={addProduct} style={s.addForm}>
                       {[
-                        { label:'Product Name', key:'productName', type:'text', placeholder:'e.g. Vitamin C Tablets' },
-                        { label:'Product Type', key:'productType', type:'select', opts:['tablet','juice','powder','other'] },
-                        { label:'Measured Concentration (mg/ml)', key:'measuredConcentration', type:'number', step:'0.01', placeholder:'20.37' },
-                        { label:'Nominal Concentration (mg/ml)', key:'nominalConcentration', type:'number', step:'0.01', placeholder:'21.3' },
+                        { label: 'Product Name', key: 'productName', type: 'text', placeholder: 'e.g. Vitamin C Tablets' },
+                        { label: 'Product Type', key: 'productType', type: 'select', opts: ['tablet', 'juice', 'powder', 'other'] },
+                        { label: 'Measured Concentration (mg/ml)', key: 'measuredConcentration', type: 'number', step: '0.01', placeholder: '20.37' },
+                        { label: 'Nominal Concentration (mg/ml)', key: 'nominalConcentration', type: 'number', step: '0.01', placeholder: '21.3' },
                       ].map(f => (
                         <div key={f.key} style={s.formField}>
                           <label style={s.formLabel}>{f.label}</label>
                           {f.type === 'select' ? (
-                            <select value={addProductForm[f.key]} onChange={e => setAddProductForm({...addProductForm,[f.key]:e.target.value})} style={s.formInput}>
-                              {f.opts.map(o=><option key={o}>{o}</option>)}
+                            <select value={addProductForm[f.key]} onChange={e => setAddProductForm({ ...addProductForm, [f.key]: e.target.value })} style={s.formInput}>
+                              {f.opts.map(o => <option key={o}>{o}</option>)}
                             </select>
                           ) : (
                             <input type={f.type} step={f.step} placeholder={f.placeholder}
-                              value={addProductForm[f.key]} onChange={e => setAddProductForm({...addProductForm,[f.key]:e.target.value})}
+                              value={addProductForm[f.key]} onChange={e => setAddProductForm({ ...addProductForm, [f.key]: e.target.value })}
                               style={s.formInput} required />
                           )}
                         </div>
@@ -373,62 +373,62 @@ export default function Dashboard() {
 }
 
 const s = {
-  layout: { display:'flex', height:'100vh', overflow:'hidden', background:'var(--bg)' },
-  sidebar: { width:'220px', background:'var(--surface)', borderRight:'0.5px solid var(--border)', display:'flex', flexDirection:'column', justifyContent:'space-between', padding:'1.5rem 1rem', flexShrink:0 },
+  layout: { display: 'flex', height: '100vh', overflow: 'hidden', background: 'var(--bg)' },
+  sidebar: { width: '220px', background: 'var(--surface)', borderRight: '0.5px solid var(--border)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '1.5rem 1rem', flexShrink: 0 },
   sideTop: {},
-  brand: { display:'flex', alignItems:'center', gap:'10px', marginBottom:'2rem' },
-  brandIcon: { fontSize:'22px', color:'var(--accent)' },
-  brandName: { fontSize:'15px', fontWeight:'700', color:'var(--text)' },
-  brandSub: { fontSize:'10px', color:'var(--text3)', fontFamily:'var(--mono)', letterSpacing:'0.04em' },
-  nav: { display:'flex', flexDirection:'column', gap:'4px' },
-  navItem: { display:'flex', alignItems:'center', gap:'10px', padding:'10px 12px', borderRadius:'10px', background:'transparent', color:'var(--text3)', fontSize:'13px', fontWeight:'500', textAlign:'left', width:'100%', border:'none', cursor:'pointer', transition:'all 0.15s' },
-  navActive: { background:'var(--surface2)', color:'var(--accent)', border:'0.5px solid var(--border2)' },
-  navIcon: { fontSize:'16px', width:'18px', textAlign:'center' },
-  sideBottom: { display:'flex', flexDirection:'column', gap:'10px' },
-  userCard: { display:'flex', alignItems:'center', gap:'10px', padding:'10px 12px', background:'var(--bg2)', borderRadius:'10px', border:'0.5px solid var(--border)' },
-  avatar: { width:'32px', height:'32px', borderRadius:'50%', background:'var(--accent2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', fontWeight:'700', color:'#000', flexShrink:0 },
-  userName: { fontSize:'13px', fontWeight:'600', color:'var(--text)' },
-  userRole: { fontSize:'10px', color:'var(--text3)', fontFamily:'var(--mono)', textTransform:'uppercase', letterSpacing:'0.06em' },
-  logoutBtn: { width:'100%', padding:'9px', background:'transparent', border:'0.5px solid var(--border2)', color:'var(--text3)', borderRadius:'8px', fontSize:'12px', fontWeight:'600', cursor:'pointer' },
-  main: { flex:1, overflow:'hidden', display:'flex', flexDirection:'column' },
-  topbar: { display:'flex', alignItems:'center', justifyContent:'space-between', padding:'1.25rem 1.75rem', borderBottom:'0.5px solid var(--border)', flexShrink:0, gap:'1rem', flexWrap:'wrap' },
-  pageTitle: { fontSize:'20px', fontWeight:'700', color:'var(--text)' },
-  pageSub: { fontSize:'12px', color:'var(--text3)', fontFamily:'var(--mono)', marginTop:'3px' },
-  topActions: { display:'flex', alignItems:'center', gap:'12px' },
-  toast: { background:'rgba(16,212,142,0.15)', border:'0.5px solid rgba(16,212,142,0.3)', borderRadius:'8px', padding:'8px 14px', fontSize:'13px', color:'#10d48e' },
-  seedBtn: { background:'var(--surface2)', border:'0.5px solid var(--border2)', color:'var(--accent)', padding:'9px 16px', borderRadius:'8px', fontSize:'13px', fontWeight:'600', cursor:'pointer', fontFamily:'var(--mono)' },
-  content: { flex:1, overflow:'auto', padding:'1.75rem' },
-  loadWrap: { display:'flex', alignItems:'center', justifyContent:'center', height:'200px', gap:'12px', color:'var(--text3)', fontFamily:'var(--mono)', fontSize:'14px' },
-  spinner: { width:'20px', height:'20px', border:'2px solid var(--border2)', borderTopColor:'var(--accent)', borderRadius:'50%', animation:'spin 0.8s linear infinite' },
-  metricsRow: { display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:'12px', marginBottom:'1.5rem' },
-  metricCard: { background:'var(--surface)', border:'0.5px solid var(--border)', borderRadius:'14px', padding:'16px 18px' },
-  metricLabel: { fontSize:'11px', fontFamily:'var(--mono)', color:'var(--text3)', textTransform:'uppercase', letterSpacing:'0.06em', marginBottom:'8px' },
-  metricVal: { fontSize:'26px', fontWeight:'700', lineHeight:1, marginBottom:'4px' },
-  metricUnit: { fontSize:'11px', color:'var(--text3)', fontFamily:'var(--mono)' },
-  chartsRow: { display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'12px', marginBottom:'1.5rem' },
-  chartCard: { background:'var(--surface)', border:'0.5px solid var(--border)', borderRadius:'14px', padding:'16px 18px' },
-  chartTitle: { fontSize:'12px', fontFamily:'var(--mono)', color:'var(--text2)', textTransform:'uppercase', letterSpacing:'0.06em', marginBottom:'14px' },
-  peakCard: { background:'var(--surface)', border:'0.5px solid var(--border)', borderRadius:'14px', padding:'16px 18px' },
-  peakRow: { display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'12px' },
-  peakItem: { background:'var(--bg2)', borderRadius:'10px', padding:'14px', border:'0.5px solid var(--border)' },
-  peakWave: { fontSize:'18px', fontFamily:'var(--mono)', fontWeight:'700', color:'var(--accent)', marginBottom:'4px' },
-  peakBond: { fontSize:'13px', fontWeight:'600', color:'var(--text)', marginBottom:'2px' },
-  peakWl: { fontSize:'11px', fontFamily:'var(--mono)', color:'var(--text3)', marginBottom:'8px' },
-  peakDesc: { fontSize:'12px', color:'var(--text2)', lineHeight:1.5 },
-  tableCard: { background:'var(--surface)', border:'0.5px solid var(--border)', borderRadius:'14px', overflow:'hidden' },
-  tableHeader: { padding:'16px 20px', borderBottom:'0.5px solid var(--border)' },
-  table: { width:'100%', borderCollapse:'collapse' },
-  th: { padding:'10px 16px', textAlign:'left', fontSize:'10px', fontFamily:'var(--mono)', color:'var(--text3)', textTransform:'uppercase', letterSpacing:'0.06em', borderBottom:'0.5px solid var(--border)', background:'var(--bg2)' },
-  td: { padding:'11px 16px', fontSize:'13px', color:'var(--text2)', borderBottom:'0.5px solid var(--border)' },
-  tr: { transition:'background 0.15s' },
-  typeCell: { fontFamily:'var(--mono)', color:'var(--accent)', fontWeight:'700', fontSize:'12px' },
-  typeBadge: { background:'var(--surface2)', border:'0.5px solid var(--border2)', borderRadius:'5px', padding:'2px 8px', fontSize:'11px', color:'var(--text2)', fontFamily:'var(--mono)' },
-  delBtn: { background:'rgba(239,68,68,0.1)', border:'0.5px solid rgba(239,68,68,0.2)', color:'#f87171', borderRadius:'6px', padding:'4px 10px', fontSize:'12px', cursor:'pointer' },
-  addGrid: { display:'grid', gridTemplateColumns:'1fr 1fr', gap:'16px' },
-  formCard: { background:'var(--surface)', border:'0.5px solid var(--border)', borderRadius:'14px', padding:'20px' },
-  addForm: { display:'flex', flexDirection:'column', gap:'12px', marginTop:'14px' },
-  formField: { display:'flex', flexDirection:'column', gap:'5px' },
-  formLabel: { fontSize:'10px', fontFamily:'var(--mono)', color:'var(--text3)', textTransform:'uppercase', letterSpacing:'0.06em' },
-  formInput: { background:'var(--bg2)', border:'0.5px solid var(--border2)', color:'var(--text)', borderRadius:'8px', padding:'10px 12px', fontSize:'13px', outline:'none', fontFamily:'var(--sans)' },
-  submitBtn: { background:'var(--accent)', color:'#000', padding:'12px', borderRadius:'10px', fontWeight:'700', fontSize:'14px', border:'none', cursor:'pointer', marginTop:'4px' },
+  brand: { display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '2rem' },
+  brandIcon: { fontSize: '22px', color: 'var(--accent)' },
+  brandName: { fontSize: '15px', fontWeight: '700', color: 'var(--text)' },
+  brandSub: { fontSize: '10px', color: 'var(--text3)', fontFamily: 'var(--mono)', letterSpacing: '0.04em' },
+  nav: { display: 'flex', flexDirection: 'column', gap: '4px' },
+  navItem: { display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '10px', background: 'transparent', color: 'var(--text3)', fontSize: '13px', fontWeight: '500', textAlign: 'left', width: '100%', border: 'none', cursor: 'pointer', transition: 'all 0.15s' },
+  navActive: { background: 'var(--surface2)', color: 'var(--accent)', border: '0.5px solid var(--border2)' },
+  navIcon: { fontSize: '16px', width: '18px', textAlign: 'center' },
+  sideBottom: { display: 'flex', flexDirection: 'column', gap: '10px' },
+  userCard: { display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', background: 'var(--bg2)', borderRadius: '10px', border: '0.5px solid var(--border)' },
+  avatar: { width: '32px', height: '32px', borderRadius: '50%', background: 'var(--accent2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: '700', color: '#000', flexShrink: 0 },
+  userName: { fontSize: '13px', fontWeight: '600', color: 'var(--text)' },
+  userRole: { fontSize: '10px', color: 'var(--text3)', fontFamily: 'var(--mono)', textTransform: 'uppercase', letterSpacing: '0.06em' },
+  logoutBtn: { width: '100%', padding: '9px', background: 'transparent', border: '0.5px solid var(--border2)', color: 'var(--text3)', borderRadius: '8px', fontSize: '12px', fontWeight: '600', cursor: 'pointer' },
+  main: { flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' },
+  topbar: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.25rem 1.75rem', borderBottom: '0.5px solid var(--border)', flexShrink: 0, gap: '1rem', flexWrap: 'wrap' },
+  pageTitle: { fontSize: '20px', fontWeight: '700', color: 'var(--text)' },
+  pageSub: { fontSize: '12px', color: 'var(--text3)', fontFamily: 'var(--mono)', marginTop: '3px' },
+  topActions: { display: 'flex', alignItems: 'center', gap: '12px' },
+  toast: { background: 'rgba(16,212,142,0.15)', border: '0.5px solid rgba(16,212,142,0.3)', borderRadius: '8px', padding: '8px 14px', fontSize: '13px', color: '#10d48e' },
+  seedBtn: { background: 'var(--surface2)', border: '0.5px solid var(--border2)', color: 'var(--accent)', padding: '9px 16px', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer', fontFamily: 'var(--mono)' },
+  content: { flex: 1, overflow: 'auto', padding: '1.75rem' },
+  loadWrap: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: '200px', gap: '12px', color: 'var(--text3)', fontFamily: 'var(--mono)', fontSize: '14px' },
+  spinner: { width: '20px', height: '20px', border: '2px solid var(--border2)', borderTopColor: 'var(--accent)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' },
+  metricsRow: { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '1.5rem' },
+  metricCard: { background: 'var(--surface)', border: '0.5px solid var(--border)', borderRadius: '14px', padding: '16px 18px' },
+  metricLabel: { fontSize: '11px', fontFamily: 'var(--mono)', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '8px' },
+  metricVal: { fontSize: '26px', fontWeight: '700', lineHeight: 1, marginBottom: '4px' },
+  metricUnit: { fontSize: '11px', color: 'var(--text3)', fontFamily: 'var(--mono)' },
+  chartsRow: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '1.5rem' },
+  chartCard: { background: 'var(--surface)', border: '0.5px solid var(--border)', borderRadius: '14px', padding: '16px 18px' },
+  chartTitle: { fontSize: '12px', fontFamily: 'var(--mono)', color: 'var(--text2)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '14px' },
+  peakCard: { background: 'var(--surface)', border: '0.5px solid var(--border)', borderRadius: '14px', padding: '16px 18px' },
+  peakRow: { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '12px' },
+  peakItem: { background: 'var(--bg2)', borderRadius: '10px', padding: '14px', border: '0.5px solid var(--border)' },
+  peakWave: { fontSize: '18px', fontFamily: 'var(--mono)', fontWeight: '700', color: 'var(--accent)', marginBottom: '4px' },
+  peakBond: { fontSize: '13px', fontWeight: '600', color: 'var(--text)', marginBottom: '2px' },
+  peakWl: { fontSize: '11px', fontFamily: 'var(--mono)', color: 'var(--text3)', marginBottom: '8px' },
+  peakDesc: { fontSize: '12px', color: 'var(--text2)', lineHeight: 1.5 },
+  tableCard: { background: 'var(--surface)', border: '0.5px solid var(--border)', borderRadius: '14px', overflow: 'hidden' },
+  tableHeader: { padding: '16px 20px', borderBottom: '0.5px solid var(--border)' },
+  table: { width: '100%', borderCollapse: 'collapse' },
+  th: { padding: '10px 16px', textAlign: 'left', fontSize: '10px', fontFamily: 'var(--mono)', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.06em', borderBottom: '0.5px solid var(--border)', background: 'var(--bg2)' },
+  td: { padding: '11px 16px', fontSize: '13px', color: 'var(--text2)', borderBottom: '0.5px solid var(--border)' },
+  tr: { transition: 'background 0.15s' },
+  typeCell: { fontFamily: 'var(--mono)', color: 'var(--accent)', fontWeight: '700', fontSize: '12px' },
+  typeBadge: { background: 'var(--surface2)', border: '0.5px solid var(--border2)', borderRadius: '5px', padding: '2px 8px', fontSize: '11px', color: 'var(--text2)', fontFamily: 'var(--mono)' },
+  delBtn: { background: 'rgba(239,68,68,0.1)', border: '0.5px solid rgba(239,68,68,0.2)', color: '#f87171', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', cursor: 'pointer' },
+  addGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' },
+  formCard: { background: 'var(--surface)', border: '0.5px solid var(--border)', borderRadius: '14px', padding: '20px' },
+  addForm: { display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '14px' },
+  formField: { display: 'flex', flexDirection: 'column', gap: '5px' },
+  formLabel: { fontSize: '10px', fontFamily: 'var(--mono)', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.06em' },
+  formInput: { background: 'var(--bg2)', border: '0.5px solid var(--border2)', color: 'var(--text)', borderRadius: '8px', padding: '10px 12px', fontSize: '13px', outline: 'none', fontFamily: 'var(--sans)' },
+  submitBtn: { background: 'var(--accent)', color: '#000', padding: '12px', borderRadius: '10px', fontWeight: '700', fontSize: '14px', border: 'none', cursor: 'pointer', marginTop: '4px' },
 };

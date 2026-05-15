@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 
 // Backend base URL
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 const AuthContext = createContext();
 

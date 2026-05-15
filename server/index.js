@@ -11,32 +11,32 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(cors({
-  origin: "*"
-}));
+/* ---------------- MIDDLEWARE ---------------- */
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
-// Routes
+/* ---------------- ROUTES ---------------- */
 app.use('/api/auth', authRoutes);
 app.use('/api/sensors', sensorRoutes);
 app.use('/api/products', productRoutes);
 
-// Health check
-app.get('/api/health', (req, res) =>
-  res.json({ status: 'OK', message: 'Server running' })
-);
+/* ---------------- HEALTH CHECK ---------------- */
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', message: 'Server running' });
+});
+
+/* Root route */
 app.get("/", (req, res) => {
   res.json({ message: "API running 🚀" });
 });
 
-
+/* ---------------- DB + SERVER ---------------- */
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('✅ MongoDB Connected');
 
     app.listen(PORT, "0.0.0.0", () => {
-      console.log(`Server running on ${PORT}`);
+      console.log(`🚀 Server running on ${PORT}`);
     });
 
   })
