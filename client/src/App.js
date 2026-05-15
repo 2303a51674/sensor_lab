@@ -9,7 +9,17 @@ const PrivateRoute = ({ children }) => {
   if (loading) return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', color: 'var(--accent)', fontFamily: 'var(--mono)' }}>Initializing...</div>;
   return user ? children : <Navigate to="/login" />;
 };
+import { useEffect } from "react";
 
+function App() {
+  useEffect(() => {
+    console.log("API URL:", process.env.REACT_APP_API_URL);
+  }, []);
+
+  return <div>App</div>;
+}
+
+export default App;
 export default function App() {
   return (
     <AuthProvider>
