@@ -9,6 +9,9 @@ const productRoutes = require('./routes/products');
 
 const app = express();
 
+// ✅ ADD THIS (VERY IMPORTANT)
+const PORT = process.env.PORT || 3000;
+
 // Middleware
 app.use(cors({
   origin: "*"
@@ -21,15 +24,24 @@ app.use('/api/sensors', sensorRoutes);
 app.use('/api/products', productRoutes);
 
 // Health check
-app.get('/api/health', (req, res) => res.json({ status: 'OK', message: 'Server running' }));
+app.get('/api/health', (req, res) =>
+  res.json({ status: 'OK', message: 'Server running' })
+);
+
+// Root route (fixes "Cannot GET /")
+app.get("/", (req, res) => {
+  res.json({ message: "API running 🚀" });
+});
 
 // Connect to MongoDB and start server
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('✅ MongoDB Connected');
+
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`Server running on ${PORT}`);
-});
+    });
+
   })
   .catch(err => {
     console.error('❌ MongoDB connection error:', err.message);
