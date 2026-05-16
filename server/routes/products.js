@@ -11,6 +11,22 @@ router.get('/', protect, async (req, res) => {
   } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
+// POST /api/products/seed  ← MUST be before /:id
+router.post('/seed', protect, async (req, res) => {
+  try {
+    await ProductTest.deleteMany({});
+    const seeds = [
+      { productName: 'Tongchen Effervescent Tablets', productType: 'tablet', measuredConcentration: 22.04, nominalConcentration: 22.5 },
+      { productName: 'Kangenbei Chewable Tablets', productType: 'tablet', measuredConcentration: 20.37, nominalConcentration: 21.3 },
+      { productName: 'Vitamin C Tablets', productType: 'tablet', measuredConcentration: 10.79, nominalConcentration: 10 },
+      { productName: 'Prickly Pear Juice', productType: 'juice', measuredConcentration: 15.54, nominalConcentration: 15 },
+      { productName: 'Sea Buckthorn Juice', productType: 'juice', measuredConcentration: 6.34, nominalConcentration: 6.15 },
+    ];
+    const created = await ProductTest.insertMany(seeds.map(s => ({ ...s, recordedBy: req.user._id })));
+    res.status(201).json({ message: `Seeded ${created.length} product tests`, data: created });
+  } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
 // POST /api/products
 router.post('/', protect, async (req, res) => {
   try {
@@ -24,22 +40,6 @@ router.delete('/:id', protect, async (req, res) => {
   try {
     await ProductTest.findByIdAndDelete(req.params.id);
     res.json({ message: 'Product test deleted' });
-  } catch (err) { res.status(500).json({ message: err.message }); }
-});
-
-// POST /api/products/seed
-router.post('/seed', protect, async (req, res) => {
-  try {
-    await ProductTest.deleteMany({});
-    const seeds = [
-      { productName: 'Tongchen Effervescent Tablets', productType: 'tablet', measuredConcentration: 22.04, nominalConcentration: 22.5 },
-      { productName: 'Kangenbei Chewable Tablets', productType: 'tablet', measuredConcentration: 20.37, nominalConcentration: 21.3 },
-      { productName: 'Vitamin C Tablets', productType: 'tablet', measuredConcentration: 10.79, nominalConcentration: 10 },
-      { productName: 'Prickly Pear Juice', productType: 'juice', measuredConcentration: 15.54, nominalConcentration: 15 },
-      { productName: 'Sea Buckthorn Juice', productType: 'juice', measuredConcentration: 6.34, nominalConcentration: 6.15 },
-    ];
-    const created = await ProductTest.insertMany(seeds.map(s => ({ ...s, recordedBy: req.user._id })));
-    res.status(201).json({ message: `Seeded ${created.length} product tests`, data: created });
   } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
