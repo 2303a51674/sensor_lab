@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import api from "axios";
 
 // Backend base URL
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
   // LOGIN
   const login = async (email, password) => {
     try {
-      const response = await axios.post("/api/auth/login", {
+      const response = await api.post("/api/auth/login", {
         email,
         password,
       });
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
   // REGISTER
   const register = async (name, email, password) => {
     try {
-      const response = await axios.post("/api/auth/register", {
+      const response = await api.post("/api/auth/register", {
         name,
         email,
         password,
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
   // LOGOUT
   const logout = () => {
     localStorage.removeItem("sensorUser");
-    delete axios.defaults.headers.common["Authorization"];
+    delete api.defaults.headers.common["Authorization"];
     setUser(null);
   };
 

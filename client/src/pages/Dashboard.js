@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -34,9 +34,9 @@ export default function Dashboard() {
     setLoading(true);
     try {
       const [s, p, st] = await Promise.all([
-        axios.get('/api/sensors'),
-        axios.get('/api/products'),
-        axios.get('/api/sensors/stats'),
+        api.get('/api/sensors'),
+        api.get('/api/products'),
+        api.get('/api/sensors/stats'),
       ]);
       setSensors(s.data); setProducts(p.data); setStats(st.data);
     } catch (e) { console.error(e); }
@@ -50,8 +50,8 @@ export default function Dashboard() {
   const seedData = async () => {
     setSeeding(true);
     try {
-      await axios.post('/api/sensors/seed');
-      await axios.post('/api/products/seed');
+      await api.post('/api/sensors/seed');
+      await api.post('/api/products/seed');
       await fetchAll();
       setMsg('Research data seeded successfully!');
       setTimeout(() => setMsg(''), 3000);
@@ -62,7 +62,7 @@ export default function Dashboard() {
   const addSensor = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/api/sensors', addForm);
+      await api.post('/api/sensors', addForm);
       setMsg('Sensor reading added!'); setTimeout(() => setMsg(''), 3000);
       setAddForm({ sensorType: 'Type IV', sensitivity: '', lod: '', concentration: '', notes: '' });
       fetchAll();
@@ -72,7 +72,7 @@ export default function Dashboard() {
   const addProduct = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/api/products', addProductForm);
+      await api.post('/api/products', addProductForm);
       setMsg('Product test added!'); setTimeout(() => setMsg(''), 3000);
       setAddProductForm({ productName: '', productType: 'tablet', measuredConcentration: '', nominalConcentration: '' });
       fetchAll();
@@ -80,12 +80,12 @@ export default function Dashboard() {
   };
 
   const deleteSensor = async (id) => {
-    await axios.delete(`/api/sensors/${id}`);
+    await api.delete(`/api/sensors/${id}`);
     fetchAll();
   };
 
   const deleteProduct = async (id) => {
-    await axios.delete(`/api/products/${id}`);
+    await api.delete(`/api/products/${id}`);
     fetchAll();
   };
 
